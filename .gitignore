@@ -1,0 +1,10 @@
+dataset/
+resources/
+
+id_rsa
+id_rsa.pub
+
+data/
+downloads/
+
+.vagrant/
