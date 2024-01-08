@@ -1,0 +1,6 @@
+- [ ] hadoop.sh: the script is ok as it is
+  - [ ] Could be improved by replacing the export commands in `.bashrc` just by copying the already modified `.bashrc` file
+- [ ] bootstrap.sh: the script is ok as it is
+  - [ ] Could be improved by passing the network IP and the number of workers as arguments
+- [ ] ssh.sh: the script is ok as it is
+  - [ ] Could be improved by passing a flag to the script to indicate if it is the master or a slave, hence avoiding the need to have two different scripts

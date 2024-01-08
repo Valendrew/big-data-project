@@ -36,16 +36,18 @@ DEST_CONF_FOLDER=$(join_path $DEST_FOLDER $HADOOP_FOLDER "etc" "hadoop")
 # Copy configuration files
 cp -R "${SRC_CONF_FOLDER}"/*.xml "${DEST_CONF_FOLDER}"
 
-WORKERS_FOLDER=$(join_path "$DEST_CONF_FOLDER" "workers")
-if grep "localhost" "$WORKERS_FOLDER"; then
-  sed -i '/localhost/d' "$WORKERS_FOLDER"
-fi
-if ! grep "node1" "$WORKERS_FOLDER"; then
-  echo "node1" >>"$WORKERS_FOLDER"
-fi
-if ! grep "node2" "$WORKERS_FOLDER"; then
-  echo "node2" >>"$WORKERS_FOLDER"
-fi
+# Copy workers file
+# WORKERS_FOLDER=$(join_path "$DEST_CONF_FOLDER" "workers")
+cp "${SRC_CONF_FOLDER}/workers" "${DEST_CONF_FOLDER}"
+# if grep "localhost" "$WORKERS_FOLDER"; then
+#   sed -i '/localhost/d' "$WORKERS_FOLDER"
+# fi
+# if ! grep "node1" "$WORKERS_FOLDER"; then
+#   echo "node1" >>"$WORKERS_FOLDER"
+# fi
+# if ! grep "node2" "$WORKERS_FOLDER"; then
+#   echo "node2" >>"$WORKERS_FOLDER"
+# fi
 
 echo "Creating data folder"
 mkdir -p "$(join_path $DEST_FOLDER 'data' 'nameNode')"
