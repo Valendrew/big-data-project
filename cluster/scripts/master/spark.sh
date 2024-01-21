@@ -30,26 +30,31 @@ if ! [ -d "$(join_path $DEST_FOLDER $SPARK_FOLDER)" ]; then
   chown --recursive vagrant:vagrant "$(join_path $DEST_FOLDER $SPARK_FOLDER)"
 fi
 
-# Add Spark environment variables
-echo "Adding Spark environment variables"
+# Variable which is false
+TO_RUN=false
 
-# if ! grep "export PATH=/home/vagrant/spark/bin:\$PATH" /home/vagrant/.profile; then
-# echo "export PATH=/home/vagrant/spark/bin:\$PATH" >>  /home/vagrant/.profile
-# fi
-if ! grep "export SPARK_HOME=$(join_path $DEST_FOLDER $SPARK_FOLDER)" /home/vagrant/.profile; then
-  echo "export SPARK_HOME=$(join_path $DEST_FOLDER $SPARK_FOLDER)" >>/home/vagrant/.profile
+if [[ "$TO_RUN" = true ]]; then
+  # Add Spark environment variables
+  echo "Adding Spark environment variables"
+
+  # if ! grep "export PATH=/home/vagrant/spark/bin:\$PATH" /home/vagrant/.profile; then
+  # echo "export PATH=/home/vagrant/spark/bin:\$PATH" >>  /home/vagrant/.profile
+  # fi
+  if ! grep "export SPARK_HOME=$(join_path $DEST_FOLDER $SPARK_FOLDER)" /home/vagrant/.profile; then
+    echo "export SPARK_HOME=$(join_path $DEST_FOLDER $SPARK_FOLDER)" >>/home/vagrant/.profile
+  fi
+  if ! grep "export LD_LIBRARY_PATH=/home/vagrant/hadoop/lib/native:$LD_LIBRARY_PATH" /home/vagrant/.profile; then
+    echo "export LD_LIBRARY_PATH=/home/vagrant/hadoop/lib/native:$LD_LIBRARY_PATH" >>/home/vagrant/.profile
+  fi
+
+  SRC_CONF_FOLDER="/vagrant/conf/spark"
+  DEST_CONF_FOLDER=$(join_path $DEST_FOLDER $SPARK_FOLDER "conf")
+  cp -R "${SRC_CONF_FOLDER}"/*.conf "${DEST_CONF_FOLDER}"
+
+  # if ! grep "spark.yarn.dist.archives /home/vagrant/project/pyspark_venv.tar.gz#pyspark_venv" ${HOME_PATH}${SPARK_FOLDER}/conf/spark-defaults.conf; then
+  #   echo "spark.yarn.dist.archives /home/vagrant/project/pyspark_venv.tar.gz#pyspark_venv" >>  ${HOME_PATH}${SPARK_FOLDER}/conf/spark-defaults.conf
+  # fi
+  # if ! grep "export SPARK_LOCAL_IP=192.168.50.2" /home/vagrant/.profile; then
+  #   echo "export SPARK_LOCAL_IP=192.168.50.2" >>  /home/vagrant/.profile
+  # fi
 fi
-if ! grep "export LD_LIBRARY_PATH=/home/vagrant/hadoop/lib/native:$LD_LIBRARY_PATH" /home/vagrant/.profile; then
-  echo "export LD_LIBRARY_PATH=/home/vagrant/hadoop/lib/native:$LD_LIBRARY_PATH" >>/home/vagrant/.profile
-fi
-
-SRC_CONF_FOLDER="/vagrant/conf/spark"
-DEST_CONF_FOLDER=$(join_path $DEST_FOLDER $SPARK_FOLDER "conf")
-cp -R "${SRC_CONF_FOLDER}"/*.conf "${DEST_CONF_FOLDER}"
-
-# if ! grep "spark.yarn.dist.archives /home/vagrant/project/pyspark_venv.tar.gz#pyspark_venv" ${HOME_PATH}${SPARK_FOLDER}/conf/spark-defaults.conf; then
-#   echo "spark.yarn.dist.archives /home/vagrant/project/pyspark_venv.tar.gz#pyspark_venv" >>  ${HOME_PATH}${SPARK_FOLDER}/conf/spark-defaults.conf
-# fi
-# if ! grep "export SPARK_LOCAL_IP=192.168.50.2" /home/vagrant/.profile; then
-#   echo "export SPARK_LOCAL_IP=192.168.50.2" >>  /home/vagrant/.profile
-# fi

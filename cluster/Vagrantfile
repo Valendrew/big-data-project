@@ -3,7 +3,6 @@
 
 Vagrant.configure("2") do |config|
     config.vm.box = "ubuntu/jammy64"
-    config.vm.boot_timeout = 180
     
     config.vm.define "node-master" do |master|
       master.vm.network "private_network", ip: "192.168.50.2"
@@ -29,9 +28,9 @@ Vagrant.configure("2") do |config|
         s.path = "scripts/master/spark.sh"
       end
 
-      # master.vm.provision :shell do |s|
-        # s.path = "python.sh"
-      # end
+      master.vm.provision :shell do |s|
+        s.path = "scripts/master/python.sh"
+      end
 
       # Configure VM memory
       master.vm.provider "virtualbox" do |vb|
